@@ -2,6 +2,7 @@ import { client } from "@/lib/client";
 import { Blog } from "@/types/blog";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import { BLOG_TITLE } from "@/constants/siteConfig";
 
 type Params = {
   params: Promise<{
@@ -18,7 +19,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     });
 
     return {
-      title: blog.title,
+      title: `${BLOG_TITLE} | blog.title`,
       description: blog.content || "ブログ記事",
     };
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

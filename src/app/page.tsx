@@ -1,6 +1,12 @@
 import { client } from "@/lib/client";
 import Link from "next/link";
 import { Blog } from "@/types/blog";
+import { Metadata } from "next";
+import { BLOG_TITLE } from "@/constants/siteConfig";
+
+export const metadata: Metadata = {
+  title: BLOG_TITLE,
+};
 
 export default async function Home() {
   const data = await client.get({
