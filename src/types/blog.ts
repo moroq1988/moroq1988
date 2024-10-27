@@ -5,4 +5,5 @@ export type Blog = {
   publishedAt: string;
   revisedAt: string;
   createdAt: string;
+  body: string;
 };

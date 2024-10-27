@@ -12,7 +12,7 @@ export default async function Home() {
 
   return (
     <main className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">ブログ一覧</h1>
+      <h1 className="text-3xl font-bold mb-6">記事一覧</h1>
       <div className="grid gap-6">
         {blogs.map((blog) => (
           <article key={blog.id} className="border p-4 rounded-lg">

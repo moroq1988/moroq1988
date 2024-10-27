@@ -3,25 +3,25 @@ import { Blog } from "@/types/blog";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 
-// Paramsの型を定義
 type Params = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
-// generateMetadataの型定義
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   try {
-    const blog = await client.get({
+    const { id } = await params;
+    const blog: Blog = await client.get({
       endpoint: "blogs",
-      contentId: params.id,
+      contentId: id,
     });
 
     return {
       title: blog.title,
-      description: blog.description || "ブログ記事",
+      description: blog.content || "ブログ記事",
     };
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return {
       title: "Not Found",
@@ -30,7 +30,6 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   }
 }
 
-// generateStaticParamsの型定義を修正
 export async function generateStaticParams() {
   const data = await client.get({
     endpoint: "blogs",
@@ -41,12 +40,12 @@ export async function generateStaticParams() {
   }));
 }
 
-// PageComponentの型定義を修正
 export default async function BlogDetail({ params }: Params) {
   try {
-    const blog = await client.get({
+    const { id } = await params;
+    const blog: Blog = await client.get({
       endpoint: "blogs",
-      contentId: params.id,
+      contentId: id,
     });
 
     return (
@@ -57,7 +56,7 @@ export default async function BlogDetail({ params }: Params) {
             {new Date(blog.publishedAt).toLocaleDateString()}
           </time>
           <div
-            dangerouslySetInnerHTML={{ __html: blog.content }}
+            dangerouslySetInnerHTML={{ __html: blog.body }}
             className="mt-8"
           />
         </article>
